@@ -44,7 +44,7 @@ class PAInstall extends Command
         try {
             $this->info('PencilAdmin installation started...');
 
-            $from = base_path('packages/waw3/penciladmin/src/Installs');
+            $from = base_path('vendor/waw3/penciladmin/src/Installs');
             $to = base_path();
 
             $this->info('from: ' . $from . " to: " . $to);
