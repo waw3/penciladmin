@@ -9,9 +9,7 @@
     "authors": [
         {
             "name": ":William Whitmire",
-            "email": ":krackenlabs@gmail.com",
-            "homepage": ":krackenlabs.io",
-            "role": "Developer"
+            "email": ":krackenlabs@gmail.com"
         }
     ],
     "require": {
