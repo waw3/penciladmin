@@ -39,7 +39,7 @@
         },
         "files": [
         ]
-    }
+    },
     "autoload-dev": {
         "psr-4": {
             "Waw3\\PencilAdmin\\": "tests"
