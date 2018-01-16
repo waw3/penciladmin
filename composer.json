@@ -8,8 +8,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": ":William Whitmire",
-            "email": ":krackenlabs@gmail.com"
+            "name": "William Whitmire",
+            "email": "krackenlabs@gmail.com"
         }
     ],
     "require": {
