@@ -159,11 +159,8 @@ class ModuleController extends Controller
         }
 
         // Delete Admin Routes
-        if(Helper::laravel_ver() == 5.3) {
-            $file_admin_routes = base_path("/routes/admin_routes.php");
-        } else {
-            $file_admin_routes = base_path("/app/Http/admin_routes.php");
-        }
+        $file_admin_routes = base_path("/routes/admin_routes.php");
+
         while(Helper::getLineWithString($file_admin_routes, "PA\\" . $module->name . "Controller") != -1) {
             $line = Helper::getLineWithString($file_admin_routes, "PA\\" . $module->name . 'Controller');
             $fileData = file_get_contents($file_admin_routes);

@@ -245,17 +245,10 @@ class PAInstall extends Command
                 // Routes
                 $this->line('Appending routes...');
                 //if(!$this->fileContains($to."/app/Http/routes.php", "penciladmin.adminRoute")) {
-                if(Helper::laravel_ver() == 5.3) {
-                    if(Helper::getLineWithString($to . "/routes/web.php", "require __DIR__.'/admin_routes.php';") == -1) {
-                        $this->appendFile($from . "/app/routes.php", $to . "/routes/web.php");
-                    }
-                    $this->copyFile($from . "/app/admin_routes.php", $to . "/routes/admin_routes.php");
-                } else {
-                    if(Helper::getLineWithString($to . "/app/Http/routes.php", "require __DIR__.'/admin_routes.php';") == -1) {
-                        $this->appendFile($from . "/app/routes.php", $to . "/app/Http/routes.php");
-                    }
-                    $this->copyFile($from . "/app/admin_routes.php", $to . "/app/Http/admin_routes.php");
+                if(Helper::getLineWithString($to . "/routes/web.php", "require __DIR__.'/admin_routes.php';") == -1) {
+                    $this->appendFile($from . "/app/routes.php", $to . "/routes/web.php");
                 }
+                $this->copyFile($from . "/app/admin_routes.php", $to . "/routes/admin_routes.php");
 
                 // tests
                 $this->line('Generating tests...');

@@ -161,11 +161,7 @@ class CodeGenerator
         $templateDirectory = __DIR__ . '/stubs';
 
         Helper::log("info", "Appending routes...", $comm);
-        if(\Waw3\PencilAdmin\Helpers\Helper::laravel_ver() == 5.3) {
-            $routesFile = base_path('routes/admin_routes.php');
-        } else {
-            $routesFile = app_path('Http/admin_routes.php');
-        }
+        $routesFile = base_path('routes/admin_routes.php');
 
         $contents = file_get_contents($routesFile);
         $contents = str_replace('});', '', $contents);
