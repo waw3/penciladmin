@@ -1,0 +1,4 @@
+    /* ================== __module_name__ ================== */
+    Route::resource(config('penciladmin.adminRoute') . '/__db_table_name__', 'PA\__controller_class_name__');
+    Route::get(config('penciladmin.adminRoute') . '/__singular_var___dt_ajax', 'PA\__controller_class_name__@dtajax');
+});

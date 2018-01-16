@@ -1,0 +1,60 @@
+{
+    "name": "waw3/penciladmin",
+    "type": "library",
+    "description": " PencilAdmin is a Open source Laravel Admin Panel / CMS which can be used as Admin Backend, Data Management Tool or CRM boilerplate for Laravel with features like CRUD Generation, Module Manager, Media, Menus, Backups and much more",
+    "keywords": ["php", "laravel", "crm", "admin", "cms", "administrator"],
+    "homepage": "https://github.com/waw3/penciladmin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": ":William Whitmire",
+            "email": ":krackenlabs@gmail.com",
+            "homepage": ":krackenlabs.io",
+            "role": "Developer"
+        }
+    ],
+    "version": "1.0.40",
+    "require": {
+        "illuminate/support": "5.*",
+        "laravelcollective/html": "^5.2|^5.1",
+        "illuminate/container": "^5.2|^5.1",
+        "yajra/laravel-datatables-oracle": "~6.0",
+        "creativeorange/gravatar": "^1.0",
+        "doctrine/dbal": "~2.3",
+        "zizaco/entrust": "1.7.0",
+        "spatie/laravel-backup": "^3.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : ">=5.4.3",
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "classmap": [
+        "src/Controllers",
+        "src/Models"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Waw3\\PencilAdmin\\": "src/"
+        },
+        "files": [
+        ]
+    }
+    "autoload-dev": {
+        "psr-4": {
+            "Waw3\\PencilAdmin\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+        "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
