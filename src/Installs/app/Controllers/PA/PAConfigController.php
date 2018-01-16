@@ -1,13 +1,13 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Waw3\PencilAdmin\Models\PAConfigs;
+use Waw3\PencilAdmin\Models\Configs;
 
-class PAConfigController extends Controller
+class ConfigController extends Controller
 {
 	var $skin_array = [
 		'White Skin' => 'skin-white',
@@ -34,9 +34,9 @@ class PAConfigController extends Controller
 	 */
 	public function index()
 	{
-		$configs = PAConfigs::getAll();
+		$configs = Configs::getAll();
 
-		return View('pa.pa_configs.index', [
+		return View('penciladmin.pa_configs.index', [
 			'configs' => $configs,
 			'skins' => $this->skin_array,
 			'layouts' => $this->layout_array
@@ -59,7 +59,7 @@ class PAConfigController extends Controller
 			}
 		}
 		foreach($all as $key => $value) {
-			PAConfigs::where('key', $key)->update(['value' => $value]);
+			Configs::where('key', $key)->update(['value' => $value]);
 		}
 
 		return redirect(config('penciladmin.adminRoute')."/pa_configs");

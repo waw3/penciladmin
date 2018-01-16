@@ -3,12 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{{ PAConfigs::getByKey('site_description') }}">
+    <meta name="description" content="{{ Configs::getByKey('site_description') }}">
     <meta name="author" content="Waw3 IT Solutions">
 
-    <meta property="og:title" content="{{ PAConfigs::getByKey('sitename') }}" />
+    <meta property="og:title" content="{{ Configs::getByKey('sitename') }}" />
     <meta property="og:type" content="website" />
-    <meta property="og:description" content="{{ PAConfigs::getByKey('site_description') }}" />
+    <meta property="og:description" content="{{ Configs::getByKey('site_description') }}" />
 
     <meta property="og:url" content="http://penciladmin.com/" />
     <meta property="og:sitename" content="penciladmin" />
@@ -18,7 +18,7 @@
     <meta name="twitter:site" content="@penciladmin" />
     <meta name="twitter:creator" content="@penciladmin" />
 
-    <title>{{ PAConfigs::getByKey('sitename') }}</title>
+    <title>{{ Configs::getByKey('sitename') }}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="{{ asset('/pa-assets/css/bootstrap.css') }}" rel="stylesheet">
@@ -48,7 +48,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#"><b>{{ PAConfigs::getByKey('sitename') }}</b></a>
+            <a class="navbar-brand" href="#"><b>{{ Configs::getByKey('sitename') }}</b></a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -74,8 +74,8 @@
     <div class="container">
         <div class="row centered">
             <div class="col-lg-12">
-                <h1>{{ PAConfigs::getByKey('sitename_part1') }} <b><a>{{ PAConfigs::getByKey('sitename_part2') }}</a></b></h1>
-                <h3>{{ PAConfigs::getByKey('site_description') }}</h3>
+                <h1>{{ Configs::getByKey('sitename_part1') }} <b><a>{{ Configs::getByKey('sitename_part2') }}</a></b></h1>
+                <h3>{{ Configs::getByKey('site_description') }}</h3>
                 <h3><a href="{{ url('/login') }}" class="btn btn-lg btn-success">Get Started!</a></h3><br>
             </div>
             <div class="col-lg-2">

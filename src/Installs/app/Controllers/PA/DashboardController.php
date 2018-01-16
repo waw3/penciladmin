@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -30,6 +30,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('pa.dashboard');
+        return view('penciladmin.dashboard');
     }
 }

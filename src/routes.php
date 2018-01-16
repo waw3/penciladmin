@@ -1,7 +1,7 @@
 <?php
 
 $as = "";
-if(\Waw3\PencilAdmin\Helpers\PAHelper::laravel_ver() == 5.3) {
+if(\Waw3\PencilAdmin\Helpers\Helper::laravel_ver() == 5.3) {
     $as = config('penciladmin.adminRoute') . '.';
 }
 
@@ -31,22 +31,18 @@ Route::group([
     Route::post(config('penciladmin.adminRoute') . '/module_update', 'ModuleController@update');
     Route::post(config('penciladmin.adminRoute') . '/module_field_listing_show', 'FieldController@module_field_listing_show_ajax');
 
-    /* ================== Code Editor ================== */
-    Route::get(config('penciladmin.adminRoute') . '/lacodeeditor', function () {
-        if(file_exists(resource_path("views/la/editor/index.blade.php"))) {
-            return redirect(config('penciladmin.adminRoute') . '/paeditor');
-        } else {
-            // show install code editor page
-            return View('pa.editor.install');
-        }
-    });
+
+    Route::get(config('penciladmin.adminRoute') . '/pencileditor', 'CodeEditorController@index');
+	Route::any(config('penciladmin.adminRoute') . '/pencileditor_get_dir', 'CodeEditorController@get_dir');
+	Route::post(config('penciladmin.adminRoute') . '/pencileditor_get_file', 'CodeEditorController@get_file');
+	Route::post(config('penciladmin.adminRoute') . '/pencileditor_save_file', 'CodeEditorController@save_file');
 
     /* ================== Menu Editor ================== */
     Route::resource(config('penciladmin.adminRoute') . '/pa_menus', 'MenuController');
     Route::post(config('penciladmin.adminRoute') . '/pa_menus/update_hierarchy', 'MenuController@update_hierarchy');
 
     /* ================== Configuration ================== */
-    Route::resource(config('penciladmin.adminRoute') . '/pa_configs', '\App\Http\Controllers\PA\PAConfigController');
+    Route::resource(config('penciladmin.adminRoute') . '/pa_configs', '\App\Http\Controllers\PencilAdmin\ConfigController');
 
     Route::group([
         'middleware' => 'role'

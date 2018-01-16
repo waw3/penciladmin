@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use DB;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
 use Waw3\PencilAdmin\Models\ModuleFieldTypes;
@@ -38,9 +38,9 @@ class ModuleController extends Controller
     public function index()
     {
         $modules = Module::all();
-        $tables = PAHelper::getDBTables([]);
+        $tables = Helper::getDBTables([]);
 
-        return View('pa.modules.index', [
+        return View('penciladmin.modules.index', [
             'modules' => $modules,
             'tables' => $tables
         ]);
@@ -71,13 +71,13 @@ class ModuleController extends Controller
         $module = Module::find($id);
         $module = Module::get($module->name);
 
-        $tables = PAHelper::getDBTables([]);
-        $modules = PAHelper::getModuleNames([]);
+        $tables = Helper::getDBTables([]);
+        $modules = Helper::getModuleNames([]);
 
         // Get Module Access for all roles
         $roles = Module::getRoleAccess($id);
 
-        return view('pa.modules.show', [
+        return view('penciladmin.modules.show', [
             'no_header' => true,
             'no_padding' => "no-padding",
             'ftypes' => $ftypes,
@@ -130,10 +130,10 @@ class ModuleController extends Controller
         $module_fields = ModuleFields::where('module', $module->id)->delete();
 
         // Delete Resource Views directory
-        \File::deleteDirectory(resource_path('/views/pa/' . $module->name_db));
+        \File::deleteDirectory(resource_path('/views/penciladmin/' . $module->name_db));
 
         // Delete Controller
-        \File::delete(app_path('/Http/Controllers/PA/' . $module->name . 'Controller.php'));
+        \File::delete(app_path('/Http/Controllers/PencilAdmin/' . $module->name . 'Controller.php'));
 
         // Delete Model
         if($module->model == "User" || $module->model == "Role" || $module->model == "Permission") {
@@ -159,19 +159,19 @@ class ModuleController extends Controller
         }
 
         // Delete Admin Routes
-        if(PAHelper::laravel_ver() == 5.3) {
+        if(Helper::laravel_ver() == 5.3) {
             $file_admin_routes = base_path("/routes/admin_routes.php");
         } else {
             $file_admin_routes = base_path("/app/Http/admin_routes.php");
         }
-        while(PAHelper::getLineWithString($file_admin_routes, "PA\\" . $module->name . "Controller") != -1) {
-            $line = PAHelper::getLineWithString($file_admin_routes, "PA\\" . $module->name . 'Controller');
+        while(Helper::getLineWithString($file_admin_routes, "PA\\" . $module->name . "Controller") != -1) {
+            $line = Helper::getLineWithString($file_admin_routes, "PA\\" . $module->name . 'Controller');
             $fileData = file_get_contents($file_admin_routes);
             $fileData = str_replace($line, "", $fileData);
             file_put_contents($file_admin_routes, $fileData);
         }
-        if(PAHelper::getLineWithString($file_admin_routes, "=== " . $module->name . " ===") != -1) {
-            $line = PAHelper::getLineWithString($file_admin_routes, "=== " . $module->name . " ===");
+        if(Helper::getLineWithString($file_admin_routes, "=== " . $module->name . " ===") != -1) {
+            $line = Helper::getLineWithString($file_admin_routes, "=== " . $module->name . " ===");
             $fileData = file_get_contents($file_admin_routes);
             $fileData = str_replace($line, "", $fileData);
             file_put_contents($file_admin_routes, $fileData);
@@ -338,8 +338,8 @@ class ModuleController extends Controller
         $module = Module::find($id);
         $module = Module::get($module->name);
 
-        $tables = PAHelper::getDBTables([]);
-        $modules = PAHelper::getModuleNames([]);
+        $tables = Helper::getDBTables([]);
+        $modules = Helper::getModuleNames([]);
         $roles = Role::all();
 
         $now = date("Y-m-d H:i:s");
@@ -439,12 +439,12 @@ class ModuleController extends Controller
         $module = Module::find($module_id);
 
         $arr = array();
-        $arr[] = "app/Http/Controllers/PA/" . $module->controller . ".php";
+        $arr[] = "app/Http/Controllers/PencilAdmin/" . $module->controller . ".php";
         $arr[] = "app/Models/" . $module->model . ".php";
-        $views = scandir(resource_path('views/la/' . $module->name_db));
+        $views = scandir(resource_path('views/penciladmin/' . $module->name_db));
         foreach($views as $view) {
             if($view != "." && $view != "..") {
-                $arr[] = "resources/views/pa/" . $view;
+                $arr[] = "resources/views/penciladmin/" . $view;
             }
         }
         // Find existing migration file

@@ -1,7 +1,4 @@
-<?php
-
-
-namespace Waw3\PencilAdmin\Controllers;
+<?php namespace Waw3\PencilAdmin\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -12,7 +9,7 @@ use Schema;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
 use Waw3\PencilAdmin\Models\ModuleFieldTypes;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 
 /**
  * Class FieldController
@@ -55,9 +52,9 @@ class FieldController extends Controller
         $module = Module::find($field->module);
         $ftypes = ModuleFieldTypes::getFTypes2();
 
-        $tables = PAHelper::getDBTables([]);
+        $tables = Helper::getDBTables([]);
 
-        return view('pa.modules.field_edit', [
+        return view('penciladmin.modules.field_edit', [
             'module' => $module,
             'ftypes' => $ftypes,
             'tables' => $tables

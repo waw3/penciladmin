@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 use Artisan;
 
 use App\Models\Backup;
@@ -31,9 +31,9 @@ class BackupsController extends Controller
 	public function index()
 	{
 		$module = Module::get('Backups');
-		
+
 		if(Module::hasAccess($module->id)) {
-			return View('pa.backups.index', [
+			return View('penciladmin.backups.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Backups'),
 				'module' => $module
@@ -51,12 +51,12 @@ class BackupsController extends Controller
 	public function create_backup_ajax(Request $request)
 	{
 		if(Module::hasAccess("Backups", "create")) {
-			
+
 			$exitCode = Artisan::call('backup:run');
 			$outputStr = Artisan::output();
-			
-			if(PAHelper::getLineWithString2($outputStr, "Copying ") == -1) {
-				if(PAHelper::getLineWithString2($outputStr, "mysqldump: No such file or directory") != -1) {
+
+			if(Helper::getLineWithString2($outputStr, "Copying ") == -1) {
+				if(Helper::getLineWithString2($outputStr, "mysqldump: No such file or directory") != -1) {
 					return response()->json([
 						'status' => 'failed',
 						'message' => "Configure dump_command_path in config/database.php. Check console for error details.",
@@ -71,19 +71,19 @@ class BackupsController extends Controller
 					'output' => $outputStr
 				]);
 			} else {
-				$dataStr = PAHelper::getLineWithString2($outputStr, "Copying ");
+				$dataStr = Helper::getLineWithString2($outputStr, "Copying ");
 				$dataStr = str_replace("Copying ", "", $dataStr);
 				$dataStr = substr($dataStr, 0, strpos($dataStr, ")"));
-				
+
 				$file_name = substr($dataStr, 0, strpos($dataStr, "(") - 1);
 				$name = str_replace(".zip", "", $file_name);
 				$backup_size = substr($dataStr, strpos($dataStr, "(") + 7);
-				
+
 				$request->name = $name;
 				$request->file_name = $file_name;
 				$request->backup_size = $backup_size;
 				$insert_id = Module::insert("Backups", $request);
-				
+
 				return response()->json([
 					'status' => 'success',
 					'message' => 'Backup successfully created.',
@@ -113,16 +113,16 @@ class BackupsController extends Controller
 			$path = str_replace("/storage", "", $this->backup_filepath. $backup->file_name);
 
 			unlink(storage_path($path));
-			
+
 			$backup->delete();
-			
+
 			// Redirecting to index() method
 			return redirect()->route(config('penciladmin.adminRoute') . '.backups.index');
 		} else {
 			return redirect(config('penciladmin.adminRoute')."/");
 		}
 	}
-	
+
 	/**
 	 * Datatable Ajax fetch
 	 *
@@ -138,9 +138,9 @@ class BackupsController extends Controller
 		$data = $out->getData();
 
 		$fields_popup = ModuleFields::getModuleFields('Backups');
-		
+
 		for($i=0; $i < count($data->data); $i++) {
-			for ($j=0; $j < count($listing_cols); $j++) { 
+			for ($j=0; $j < count($listing_cols); $j++) {
 				$col = $listing_cols[$j];
 				if($fields_popup[$col] != null && starts_with($fields_popup[$col]->popup_vals, "@")) {
 					$data->data[$i][$j] = ModuleFields::getFieldValue($fields_popup[$col], $data->data[$i][$j]);
@@ -151,11 +151,11 @@ class BackupsController extends Controller
 				   $data->data[$i][$j] = $this->backup_filepath.$data->data[$i][$j];
 				}
 			}
-			
+
 			if($this->show_action) {
 				$output = '';
 				$output .= '<a href="'.url(config('penciladmin.adminRoute') . '/downloadBackup/'.$data->data[$i][0]).'" class="btn btn-warning btn-xs" style="display:inline;padding:2px 5px 3px 5px;"><i class="fa fa-download"></i></a>';
-				
+
 				if(Module::hasAccess("Backups", "delete")) {
 					$output .= Form::open(['route' => [config('penciladmin.adminRoute') . '.backups.destroy', $data->data[$i][0]], 'method' => 'delete', 'style'=>'display:inline']);
 					$output .= ' <button class="btn btn-danger btn-xs" type="submit"><i class="fa fa-times"></i></button>';

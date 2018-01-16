@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class DepartmentsController extends Controller
 		$module = Module::get('Departments');
 
 		if(Module::hasAccess($module->id)) {
-			return View('pa.departments.index', [
+			return View('penciladmin.departments.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Departments'),
 				'module' => $module
@@ -92,7 +92,7 @@ class DepartmentsController extends Controller
 				$module = Module::get('Departments');
 				$module->row = $department;
 
-				return view('pa.departments.show', [
+				return view('penciladmin.departments.show', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 					'no_header' => true,
@@ -124,7 +124,7 @@ class DepartmentsController extends Controller
 
 				$module->row = $department;
 
-				return view('pa.departments.edit', [
+				return view('penciladmin.departments.edit', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 				])->with('department', $department);

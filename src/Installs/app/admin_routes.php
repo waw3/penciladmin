@@ -15,7 +15,7 @@ Route::get('files/{hash}/{name}', 'PA\UploadsController@get_file');
 */
 
 $as = "";
-if(\Waw3\PencilAdmin\Helpers\PAHelper::laravel_ver() == 5.3) {
+if(\Waw3\PencilAdmin\Helpers\Helper::laravel_ver() == 5.3) {
 	$as = config('penciladmin.adminRoute').'.';
 
 	// Routes for Laravel 5.3

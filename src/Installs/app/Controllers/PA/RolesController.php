@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,7 +31,7 @@ class RolesController extends Controller
 		$module = Module::get('Roles');
 
 		if(Module::hasAccess($module->id)) {
-			return View('pa.roles.index', [
+			return View('penciladmin.roles.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Roles'),
 				'module' => $module
@@ -110,7 +110,7 @@ class RolesController extends Controller
 					$module_obj->accesses = Module::getRoleAccess($module_obj->id, $id)[0];
 					$modules_access[] = $module_obj;
 				}
-				return view('pa.roles.show', [
+				return view('penciladmin.roles.show', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 					'no_header' => true,
@@ -143,7 +143,7 @@ class RolesController extends Controller
 
 				$module->row = $role;
 
-				return view('pa.roles.edit', [
+				return view('penciladmin.roles.edit', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 				])->with('role', $role);

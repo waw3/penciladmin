@@ -9,7 +9,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Exception;
 use Log;
 use DB;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 
 /**
  * Class Module
@@ -43,7 +43,7 @@ class Module extends Model
     public static function generateBase($module_name, $icon)
     {
 
-        $names = PAHelper::generateModuleNames($module_name, $icon);
+        $names = Helper::generateModuleNames($module_name, $icon);
 
         // Check is Generated
         $is_gen = false;
@@ -85,7 +85,7 @@ class Module extends Model
     public static function generate($module_name, $module_name_db, $view_col, $faIcon = "fa-cube", $fields)
     {
 
-        $names = PAHelper::generateModuleNames($module_name, $faIcon);
+        $names = Helper::generateModuleNames($module_name, $faIcon);
         $fields = Module::format_fields($module_name, $fields);
 
         if(substr_count($view_col, " ") || substr_count($view_col, ".")) {
@@ -790,7 +790,7 @@ class Module extends Model
         $out = array();
         foreach($fields as $field) {
             // Check if field format is New
-            if(PAHelper::is_assoc_array($field)) {
+            if(Helper::is_assoc_array($field)) {
                 $obj = (object)$field;
 
                 if(!isset($obj->colname)) {

@@ -5,7 +5,7 @@ namespace Waw3\PencilAdmin\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 
 /**
  * Class Packaging
@@ -41,14 +41,14 @@ class Packaging extends Command
         $this->info('Exporting started...');
 
         $from = base_path();
-        $to = base_path('vendor/waw3/penciladmin/src/Installs');
+        $to = base_path('packages/waw3/penciladmin/src/Installs');
 
         $this->info('from: ' . $from . " to: " . $to);
 
         // Controllers
         $this->line('Exporting Controllers...');
         $this->replaceFolder($from . "/app/Http/Controllers/Auth", $to . "/app/Controllers/Auth");
-        $this->replaceFolder($from . "/app/Http/Controllers/PA", $to . "/app/Controllers/PA");
+        $this->replaceFolder($from . "/app/Http/Controllers/PencilAdmin", $to . "/app/Controllers/PencilAdmin");
         $this->copyFile($from . "/app/Http/Controllers/Controller.php", $to . "/app/Controllers/Controller.php");
         $this->copyFile($from . "/app/Http/Controllers/HomeController.php", $to . "/app/Controllers/HomeController.php");
 
@@ -65,7 +65,7 @@ class Packaging extends Command
 
         // Routes
         $this->line('Exporting Routes...');
-        if(PAHelper::laravel_ver() == 5.3) {
+        if(Helper::laravel_ver() == 5.3) {
             // $this->copyFile($from."/routes/web.php", $to."/app/routes.php"); // Not needed anymore
             $this->copyFile($from . "/routes/admin_routes.php", $to . "/app/admin_routes.php");
         } else {
@@ -114,9 +114,9 @@ class Packaging extends Command
     {
         $this->info("replaceFolder: ($from, $to)");
         if(file_exists($to)) {
-            PAHelper::recurse_delete($to);
+            Helper::recurse_delete($to);
         }
-        PAHelper::recurse_copy($from, $to);
+        Helper::recurse_copy($from, $to);
     }
 
     /**
@@ -128,7 +128,7 @@ class Packaging extends Command
     private function copyFile($from, $to)
     {
         $this->info("copyFile: ($from, $to)");
-        //PAHelper::recurse_copy($from, $to);
+        //Helper::recurse_copy($from, $to);
         if(!file_exists(dirname($to))) {
             $this->info("mkdir: (" . dirname($to) . ")");
             mkdir(dirname($to));

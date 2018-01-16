@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 use Zizaco\Entrust\EntrustFacade as Entrust;
 
 use App\Permission;
@@ -33,7 +33,7 @@ class PermissionsController extends Controller
 		$module = Module::get('Permissions');
 
 		if(Module::hasAccess($module->id)) {
-			return View('pa.permissions.index', [
+			return View('penciladmin.permissions.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Permissions'),
 				'module' => $module
@@ -97,7 +97,7 @@ class PermissionsController extends Controller
 
 				$roles = Role::all();
 
-				return view('pa.permissions.show', [
+				return view('penciladmin.permissions.show', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 					'no_header' => true,
@@ -130,7 +130,7 @@ class PermissionsController extends Controller
 
 				$module->row = $permission;
 
-				return view('pa.permissions.edit', [
+				return view('penciladmin.permissions.edit', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 				])->with('permission', $permission);

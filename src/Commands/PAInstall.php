@@ -6,7 +6,7 @@ namespace Waw3\PencilAdmin\Commands;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 use Eloquent;
 use DB;
 
@@ -44,7 +44,7 @@ class PAInstall extends Command
         try {
             $this->info('PencilAdmin installation started...');
 
-            $from = base_path('vendor/waw3/penciladmin/src/Installs');
+            $from = base_path('packages/waw3/penciladmin/src/Installs');
             $to = base_path();
 
             $this->info('from: ' . $from . " to: " . $to);
@@ -54,7 +54,7 @@ class PAInstall extends Command
                 $this->line("DB Assistant Initiated....");
                 $db_data = array();
 
-                if(PAHelper::laravel_ver() == 5.3) {
+                if(Helper::laravel_ver() == 5.3) {
                     $db_data['host'] = $this->ask('Database Host', '127.0.0.1');
                     $db_data['port'] = $this->ask('Database Port', '3306');
                 }
@@ -70,24 +70,24 @@ class PAInstall extends Command
 
                 $default_db_conn = env('DB_CONNECTION', 'mysql');
 
-                if(PAHelper::laravel_ver() == 5.3) {
+                if(Helper::laravel_ver() == 5.3) {
                     config(['database.connections.' . $default_db_conn . '.host' => $db_data['host']]);
                     config(['database.connections.' . $default_db_conn . '.port' => $db_data['port']]);
-                    PAHelper::setenv("DB_HOST", $db_data['host']);
-                    PAHelper::setenv("DB_PORT", $db_data['port']);
+                    Helper::setenv("DB_HOST", $db_data['host']);
+                    Helper::setenv("DB_PORT", $db_data['port']);
                 }
 
                 config(['database.connections.' . $default_db_conn . '.database' => $db_data['db']]);
                 config(['database.connections.' . $default_db_conn . '.username' => $db_data['dbuser']]);
                 config(['database.connections.' . $default_db_conn . '.password' => $db_data['dbpass']]);
-                PAHelper::setenv("DB_DATABASE", $db_data['db']);
-                PAHelper::setenv("DB_USERNAME", $db_data['dbuser']);
-                PAHelper::setenv("DB_PASSWORD", $db_data['dbpass']);
+                Helper::setenv("DB_DATABASE", $db_data['db']);
+                Helper::setenv("DB_USERNAME", $db_data['dbuser']);
+                Helper::setenv("DB_PASSWORD", $db_data['dbpass']);
             }
 
             if(env('CACHE_DRIVER') != "array") {
                 config(['cache.default' => 'array']);
-                PAHelper::setenv("CACHE_DRIVER", "array");
+                Helper::setenv("CACHE_DRIVER", "array");
             }
 
             if($this->confirm("This process may change/append to the following of your existing project files:"
@@ -101,7 +101,7 @@ class PAInstall extends Command
                 // Controllers
                 $this->line("\n" . 'Generating Controllers...');
                 $this->copyFolder($from . "/app/Controllers/Auth", $to . "/app/Http/Controllers/Auth");
-                if(PAHelper::laravel_ver() == 5.3) {
+                if(Helper::laravel_ver() == 5.3) {
                     // Delete Redundant Controllers
                     unlink($to . "/app/Http/Controllers/Auth/PasswordController.php");
                     unlink($to . "/app/Http/Controllers/Auth/AuthController.php");
@@ -111,8 +111,8 @@ class PAInstall extends Command
                     unlink($to . "/app/Http/Controllers/Auth/RegisterController.php");
                     unlink($to . "/app/Http/Controllers/Auth/ResetPasswordController.php");
                 }
-                $this->replaceFolder($from . "/app/Controllers/PA", $to . "/app/Http/Controllers/PA");
-                if(PAHelper::laravel_ver() == 5.3) {
+                $this->replaceFolder($from . "/app/Controllers/PencilAdmin", $to . "/app/Http/Controllers/PencilAdmin");
+                if(Helper::laravel_ver() == 5.3) {
                     $this->copyFile($from . "/app/Controllers/Controller.5.3.php", $to . "/app/Http/Controllers/Controller.php");
                 } else {
                     $this->copyFile($from . "/app/Controllers/Controller.php", $to . "/app/Http/Controllers/Controller.php");
@@ -120,7 +120,7 @@ class PAInstall extends Command
                 $this->copyFile($from . "/app/Controllers/HomeController.php", $to . "/app/Http/Controllers/HomeController.php");
 
                 // Middleware
-                if(PAHelper::laravel_ver() == 5.3) {
+                if(Helper::laravel_ver() == 5.3) {
                     $this->copyFile($from . "/app/Middleware/RedirectIfAuthenticated.php", $to . "/app/Http/Middleware/RedirectIfAuthenticated.php");
                 }
 
@@ -137,7 +137,7 @@ class PAInstall extends Command
                 }
                 foreach($this->modelsInstalled as $model) {
                     if($model == "User") {
-                        if(PAHelper::laravel_ver() == 5.3) {
+                        if(Helper::laravel_ver() == 5.3) {
                             $this->copyFile($from . "/app/Models/" . $model . "5.3.php", $to . "/app/" . $model . ".php");
                         } else {
                             $this->copyFile($from . "/app/Models/" . $model . ".php", $to . "/app/" . $model . ".php");
@@ -155,7 +155,7 @@ class PAInstall extends Command
                 if ($this->confirm('Would you like to customize this url ?', false)) {
                     $custom_admin_route = $this->ask('Custom admin route:', 'admin');
                     $laconfigfile =  $this->openFile($to."/config/penciladmin.php");
-                    $arline = PAHelper::getLineWithString($to."/config/penciladmin.php", "'adminRoute' => 'admin',");
+                    $arline = Helper::getLineWithString($to."/config/penciladmin.php", "'adminRoute' => 'admin',");
                     $laconfigfile = str_replace($arline, "    'adminRoute' => '" . $custom_admin_route . "',", $laconfigfile);
                     file_put_contents($to."/config/penciladmin.php", $laconfigfile);
                     config(['penciladmin.adminRoute' => $custom_admin_route]);
@@ -230,14 +230,14 @@ class PAInstall extends Command
                 $this->call('vendor:publish', ['--provider' => 'Spatie\Backup\BackupServiceProvider']);
 
                 // Edit config/database.php for Spatie Backup Configuration
-                if(PAHelper::getLineWithString('config/database.php', "dump_command_path") == -1) {
+                if(Helper::getLineWithString('config/database.php', "dump_command_path") == -1) {
                     $newDBConfig = "            'driver' => 'mysql',\n"
                         . "            'dump_command_path' => '/opt/lampp/bin', // only the path, so without 'mysqldump' or 'pg_dump'\n"
                         . "            'dump_command_timeout' => 60 * 5, // 5 minute timeout\n"
                         . "            'dump_using_single_transaction' => true, // perform dump using a single transaction\n";
 
                     $envfile = $this->openFile('config/database.php');
-                    $mysqldriverline = PAHelper::getLineWithString('config/database.php', "'driver' => 'mysql'");
+                    $mysqldriverline = Helper::getLineWithString('config/database.php', "'driver' => 'mysql'");
                     $envfile = str_replace($mysqldriverline, $newDBConfig, $envfile);
                     file_put_contents('config/database.php', $envfile);
                 }
@@ -245,13 +245,13 @@ class PAInstall extends Command
                 // Routes
                 $this->line('Appending routes...');
                 //if(!$this->fileContains($to."/app/Http/routes.php", "penciladmin.adminRoute")) {
-                if(PAHelper::laravel_ver() == 5.3) {
-                    if(PAHelper::getLineWithString($to . "/routes/web.php", "require __DIR__.'/admin_routes.php';") == -1) {
+                if(Helper::laravel_ver() == 5.3) {
+                    if(Helper::getLineWithString($to . "/routes/web.php", "require __DIR__.'/admin_routes.php';") == -1) {
                         $this->appendFile($from . "/app/routes.php", $to . "/routes/web.php");
                     }
                     $this->copyFile($from . "/app/admin_routes.php", $to . "/routes/admin_routes.php");
                 } else {
-                    if(PAHelper::getLineWithString($to . "/app/Http/routes.php", "require __DIR__.'/admin_routes.php';") == -1) {
+                    if(Helper::getLineWithString($to . "/app/Http/routes.php", "require __DIR__.'/admin_routes.php';") == -1) {
                         $this->appendFile($from . "/app/routes.php", $to . "/app/Http/routes.php");
                     }
                     $this->copyFile($from . "/app/admin_routes.php", $to . "/app/Http/admin_routes.php");
@@ -260,7 +260,7 @@ class PAInstall extends Command
                 // tests
                 $this->line('Generating tests...');
                 $this->copyFolder($from . "/tests", $to . "/tests");
-                if(PAHelper::laravel_ver() == 5.3) {
+                if(Helper::laravel_ver() == 5.3) {
                     unlink($to . '/tests/TestCase.php');
                     rename($to . '/tests/TestCase5.3.php', $to . '/tests/TestCase.php');
                 } else {
@@ -270,7 +270,7 @@ class PAInstall extends Command
                 // Utilities
                 $this->line('Generating Utilities...');
                 // if(!$this->fileContains($to."/gulpfile.js", "admin-lte/AdminLTE.less")) {
-                if(PAHelper::getLineWithString($to . "/gulpfile.js", "mix.less('admin-lte/AdminLTE.less', 'public/pa-assets/css');") == -1) {
+                if(Helper::getLineWithString($to . "/gulpfile.js", "mix.less('admin-lte/AdminLTE.less', 'public/pa-assets/css');") == -1) {
                     $this->appendFile($from . "/gulpfile.js", $to . "/gulpfile.js");
                 }
                 // Creating Super Admin User
@@ -340,7 +340,7 @@ class PAInstall extends Command
     private function copyFolder($from, $to)
     {
         // $this->info("copyFolder: ($from, $to)");
-        PAHelper::recurse_copy($from, $to);
+        Helper::recurse_copy($from, $to);
     }
 
     /**
@@ -353,9 +353,9 @@ class PAInstall extends Command
     {
         // $this->info("replaceFolder: ($from, $to)");
         if(file_exists($to)) {
-            PAHelper::recurse_delete($to);
+            Helper::recurse_delete($to);
         }
-        PAHelper::recurse_copy($from, $to);
+        Helper::recurse_copy($from, $to);
     }
 
     /**

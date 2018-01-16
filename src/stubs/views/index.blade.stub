@@ -1,4 +1,4 @@
-@extends("pa.layouts.app")
+@extends("penciladmin.layouts.app")
 
 @section("contentheader_title", "__module_name_2__")
 @section("contentheader_description", "__module_name_2__ listing")

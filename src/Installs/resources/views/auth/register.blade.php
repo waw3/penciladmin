@@ -1,4 +1,4 @@
-@extends('pa.layouts.auth')
+@extends('penciladmin.layouts.auth')
 
 @section('htmlheader_title')
     Register
@@ -9,7 +9,7 @@
     <body class="hold-transition register-page">
     <div class="register-box">
         <div class="register-logo">
-            <a href="{{ url('/home') }}"><b>{{ PAConfigs::getByKey('sitename_part1') }} </b>{{ PAConfigs::getByKey('sitename_part2') }}</a>
+            <a href="{{ url('/home') }}"><b>{{ Configs::getByKey('sitename_part1') }} </b>{{ Configs::getByKey('sitename_part2') }}</a>
         </div>
 
         @if (count($errors) > 0)
@@ -63,7 +63,7 @@
         </div><!-- /.form-box -->
     </div><!-- /.register-box -->
 
-    @include('pa.layouts.partials.scripts_auth')
+    @include(penciladmin.layouts.partials.scripts_auth')
 
     <script>
         $(function () {

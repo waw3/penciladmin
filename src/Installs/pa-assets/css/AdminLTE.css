@@ -7407,11 +7407,11 @@ body > .pgn-wrapper {
     width: 100%;
   }
 }
-#paeditor {
+#pencileditor {
   padding: 0px;
   margin: 0px;
 }
-#paeditor .la-header {
+#pencileditor .pa-header {
   text-align: center;
   padding: 5px;
   background: #444;
@@ -7419,26 +7419,26 @@ body > .pgn-wrapper {
   border-bottom: solid 1px #333;
   border-right: solid 1px #333;
 }
-#paeditor .col-md-2,
-#paeditor .col-md-10 {
+#pencileditor .col-md-2,
+#pencileditor .col-md-10 {
   padding: 0px;
 }
-#paeditor .la-file-tree {
+#pencileditor .pa-file-tree {
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 5px;
   background: #222;
   border-right: solid 1px #333;
 }
-#paeditor .la-file-tree a {
+#pencileditor .pa-file-tree a {
   display: block;
   width: 100%;
   color: darkgrey;
 }
-#paeditor .la-file-tree a:hover {
+#pencileditor .pa-file-tree a:hover {
   background: rgba(255, 255, 255, 0.29);
 }
-#paeditor .paeditor-tabs {
+#pencileditor .pencileditor-tabs {
   list-style: none;
   margin: 0px;
   padding: 0px;
@@ -7449,7 +7449,7 @@ body > .pgn-wrapper {
   border-bottom: solid 1px;
   height: 31px;
 }
-#paeditor .paeditor-tabs li {
+#pencileditor .pencileditor-tabs li {
   display: inline-block;
   padding: 4px 10px;
   padding-right: 8px;
@@ -7461,33 +7461,33 @@ body > .pgn-wrapper {
   float: left;
   cursor: pointer;
 }
-#paeditor .paeditor-tabs li i.fa {
+#pencileditor .pencileditor-tabs li i.fa {
   font-size: 10px;
   margin-left: 3px;
   color: #555;
 }
-#paeditor .paeditor-tabs li.active {
+#pencileditor .pencileditor-tabs li.active {
   background: #444;
 }
-#paeditor .paeditor-tabs li.active i.fa {
+#pencileditor .pencileditor-tabs li.active i.fa {
   color: #999;
 }
-#paeditor .paeditor-tabs li:hover {
+#pencileditor .pencileditor-tabs li:hover {
   background: #333;
 }
-#paeditor .paeditor-tabs li:hover i.fa {
+#pencileditor .pencileditor-tabs li:hover i.fa {
   color: #999;
 }
-#paeditor #la-ace-editor {
+#pencileditor #pa-ace-editor {
   display: block;
   border-radius: 0px;
   border: 0px;
   margin: 0px;
 }
-#paeditor #la-ace-editor .ace_gutter {
+#pencileditor #pa-ace-editor .ace_gutter {
   margin-top: 0px;
 }
-#paeditor #la-ace-editor .ace_scroller {
+#pencileditor #pa-ace-editor .ace_scroller {
   margin-top: 0px;
 }
 /* =================== Uploads =================== */

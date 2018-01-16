@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Filesystem\Filesystem;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFieldTypes;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 use Waw3\PencilAdmin\Models\Menu;
 
 /**
@@ -30,7 +30,7 @@ class CodeGenerator
 
         $templateDirectory = __DIR__ . '/stubs';
 
-        PAHelper::log("info", "Creating controller...", $comm);
+        Helper::log("info", "Creating controller...", $comm);
         $md = file_get_contents($templateDirectory . "/controller.stub");
 
         $md = str_replace("__controller_class_name__", $config->controllerName, $md);
@@ -51,7 +51,7 @@ class CodeGenerator
         $md = str_replace("__db_table_name__", $config->dbTableName, $md);
         $md = str_replace("__singular_var__", $config->singularVar, $md);
 
-        file_put_contents(base_path('app/Http/Controllers/PA/' . $config->controllerName . ".php"), $md);
+        file_put_contents(base_path('app/Http/Controllers/PencilAdmin/' . $config->controllerName . ".php"), $md);
     }
 
     /**
@@ -65,7 +65,7 @@ class CodeGenerator
 
         $templateDirectory = __DIR__ . '/stubs';
 
-        PAHelper::log("info", "Creating model...", $comm);
+        Helper::log("info", "Creating model...", $comm);
         $md = file_get_contents($templateDirectory . "/model.stub");
 
         $md = str_replace("__model_class_name__", $config->modelName, $md);
@@ -85,9 +85,9 @@ class CodeGenerator
 
         $templateDirectory = __DIR__ . '/stubs';
 
-        PAHelper::log("info", "Creating views...", $comm);
+        Helper::log("info", "Creating views...", $comm);
         // Create Folder
-        @mkdir(base_path("resources/views/pa/" . $config->dbTableName), 0777, true);
+        @mkdir(base_path("resources/views/penciladmin/" . $config->dbTableName), 0777, true);
 
         // ============================ Listing / Index ============================
         $md = file_get_contents($templateDirectory . "/views/index.blade.stub");
@@ -107,7 +107,7 @@ class CodeGenerator
         $inputFields = trim($inputFields);
         $md = str_replace("__input_fields__", $inputFields, $md);
 
-        file_put_contents(base_path('resources/views/pa/' . $config->dbTableName . '/index.blade.php'), $md);
+        file_put_contents(base_path('resources/views/penciladmin/' . $config->dbTableName . '/index.blade.php'), $md);
 
         // ============================ Edit ============================
         $md = file_get_contents($templateDirectory . "/views/edit.blade.stub");
@@ -127,7 +127,7 @@ class CodeGenerator
         $inputFields = trim($inputFields);
         $md = str_replace("__input_fields__", $inputFields, $md);
 
-        file_put_contents(base_path('resources/views/pa/' . $config->dbTableName . '/edit.blade.php'), $md);
+        file_put_contents(base_path('resources/views/penciladmin/' . $config->dbTableName . '/edit.blade.php'), $md);
 
         // ============================ Show ============================
         $md = file_get_contents($templateDirectory . "/views/show.blade.stub");
@@ -146,7 +146,7 @@ class CodeGenerator
         $displayFields = trim($displayFields);
         $md = str_replace("__display_fields__", $displayFields, $md);
 
-        file_put_contents(base_path('resources/views/pa/' . $config->dbTableName . '/show.blade.php'), $md);
+        file_put_contents(base_path('resources/views/penciladmin/' . $config->dbTableName . '/show.blade.php'), $md);
     }
 
     /**
@@ -160,8 +160,8 @@ class CodeGenerator
 
         $templateDirectory = __DIR__ . '/stubs';
 
-        PAHelper::log("info", "Appending routes...", $comm);
-        if(\Waw3\PencilAdmin\Helpers\PAHelper::laravel_ver() == 5.3) {
+        Helper::log("info", "Appending routes...", $comm);
+        if(\Waw3\PencilAdmin\Helpers\Helper::laravel_ver() == 5.3) {
             $routesFile = base_path('routes/admin_routes.php');
         } else {
             $routesFile = app_path('Http/admin_routes.php');
@@ -193,7 +193,7 @@ class CodeGenerator
 
         // $templateDirectory = __DIR__.'/stubs';
 
-        PAHelper::log("info", "Appending Menu...", $comm);
+        Helper::log("info", "Appending Menu...", $comm);
         if(Menu::where("url", $config->dbTableName)->count() == 0) {
             Menu::create([
                 "name" => $config->moduleName,
@@ -206,9 +206,9 @@ class CodeGenerator
 
         // Old Method to add Menu
         // $menu = '<li><a href="{{ url(config("penciladmin.adminRoute") . '."'".'/'.$config->dbTableName."'".') }}"><i class="fa fa-cube"></i> <span>'.$config->moduleName.'</span></a></li>'."\n".'            <!-- PAMenus -->';
-        // $md = file_get_contents(base_path('resources/views/pa/layouts/partials/sidebar.blade.php'));
+        // $md = file_get_contents(base_path('resources/views/penciladmin/layouts/partials/sidebar.blade.php'));
         // $md = str_replace("<!-- PAMenus -->", $menu, $md);
-        // file_put_contents(base_path('resources/views/pa/layouts/partials/sidebar.blade.php'), $md);
+        // file_put_contents(base_path('resources/views/penciladmin/layouts/partials/sidebar.blade.php'), $md);
     }
 
     /**
@@ -239,10 +239,10 @@ class CodeGenerator
         $dbTableName = $tableP;
         $moduleName = ucfirst(str_plural($table));
 
-        PAHelper::log("info", "Model:\t   " . $modelName, $comm);
-        PAHelper::log("info", "Module:\t   " . $moduleName, $comm);
-        PAHelper::log("info", "Table:\t   " . $dbTableName, $comm);
-        PAHelper::log("info", "Migration: " . $migrationName . "\n", $comm);
+        Helper::log("info", "Model:\t   " . $modelName, $comm);
+        Helper::log("info", "Module:\t   " . $moduleName, $comm);
+        Helper::log("info", "Table:\t   " . $dbTableName, $comm);
+        Helper::log("info", "Migration: " . $migrationName . "\n", $comm);
 
         // Reverse migration generation from table
         $generateData = "";
@@ -255,7 +255,7 @@ class CodeGenerator
             // check if table, module and module fields exists
             $module = Module::get($moduleName);
             if(isset($module)) {
-                PAHelper::log("info", "Module exists :\t   " . $moduleName, $comm);
+                Helper::log("info", "Module exists :\t   " . $moduleName, $comm);
 
                 $viewColumnName = $module->view_col;
                 $faIcon = $module->fa_icon;
@@ -328,7 +328,7 @@ class CodeGenerator
                     }
                 }
                 if($fileExists) {
-                    PAHelper::log("info", "Replacing old migration file: " . $fileExistName, $comm);
+                    Helper::log("info", "Replacing old migration file: " . $fileExistName, $comm);
                     $migrationFileName = $fileExistName;
                 } else {
                     // If migration not exists in migrations table
@@ -340,14 +340,14 @@ class CodeGenerator
                     }
                 }
             } else {
-                PAHelper::log("error", "Module " . $moduleName . " doesn't exists; Cannot generate !!!", $comm);
+                Helper::log("error", "Module " . $moduleName . " doesn't exists; Cannot generate !!!", $comm);
             }
         }
 
         $templateDirectory = __DIR__ . '/stubs';
 
         try {
-            PAHelper::log("line", "Creating migration...", $comm);
+            Helper::log("line", "Creating migration...", $comm);
             $migrationData = file_get_contents($templateDirectory . "/migration.stub");
 
             $migrationData = str_replace("__migration_class_name__", $migrationClassName, $migrationData);
@@ -366,7 +366,7 @@ class CodeGenerator
         } catch(Exception $e) {
             throw new Exception("Unable to generate migration for " . $table . " : " . $e->getMessage(), 1);
         }
-        PAHelper::log("info", "Migration done: " . $migrationFileName . "\n", $comm);
+        Helper::log("info", "Migration done: " . $migrationFileName . "\n", $comm);
     }
 
     /**

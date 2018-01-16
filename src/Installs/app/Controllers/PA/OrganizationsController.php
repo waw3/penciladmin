@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -30,7 +30,7 @@ class OrganizationsController extends Controller
 		$module = Module::get('Organizations');
 		
 		if(Module::hasAccess($module->id)) {
-			return View('pa.organizations.index', [
+			return View('penciladmin.organizations.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Organizations'),
 				'module' => $module
@@ -92,7 +92,7 @@ class OrganizationsController extends Controller
 				$module = Module::get('Organizations');
 				$module->row = $organization;
 				
-				return view('pa.organizations.show', [
+				return view('penciladmin.organizations.show', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 					'no_header' => true,
@@ -124,7 +124,7 @@ class OrganizationsController extends Controller
 				
 				$module->row = $organization;
 				
-				return view('pa.organizations.edit', [
+				return view('penciladmin.organizations.edit', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 				])->with('organization', $organization);

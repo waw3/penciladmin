@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class UsersController extends Controller
 		$module = Module::get('Users');
 
 		if(Module::hasAccess($module->id)) {
-			return View('pa.users.index', [
+			return View('penciladmin.users.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Users'),
 				'module' => $module

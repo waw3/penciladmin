@@ -13,7 +13,7 @@ use Waw3\PencilAdmin\Models\Menu;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
 use Waw3\PencilAdmin\Models\ModuleFieldTypes;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 
 /**
  * Class MenuController
@@ -40,7 +40,7 @@ class MenuController extends Controller
         // Send Menus with No Parent to Views
         $menuItems = Menu::where("parent", 0)->orderBy('hierarchy', 'asc')->get();
 
-        return View('pa.menus.index', [
+        return View('penciladmin.menus.index', [
             'menus' => $menuItems,
             'modules' => $modules
         ]);

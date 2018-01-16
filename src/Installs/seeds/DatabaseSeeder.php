@@ -7,7 +7,7 @@ use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
 use Waw3\PencilAdmin\Models\ModuleFieldTypes;
 use Waw3\PencilAdmin\Models\Menu;
-use Waw3\PencilAdmin\Models\PAConfigs;
+use Waw3\PencilAdmin\Models\Configs;
 
 use App\Role;
 use App\Permission;
@@ -83,71 +83,71 @@ class DatabaseSeeder extends Seeder
 
 		// Generate PencilAdmin Default Configurations
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "sitename";
 		$laconfig->value = "PencilAdmin 1.0";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "sitename_part1";
 		$laconfig->value = "Pencil";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "sitename_part2";
 		$laconfig->value = "Admin 1.0";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "sitename_short";
 		$laconfig->value = "PA";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "site_description";
 		$laconfig->value = "PencilAdmin is a open-source Laravel Admin Panel for quick-start Admin based applications and boilerplate for CRM or CMS systems.";
 		$laconfig->save();
 
 		// Display Configurations
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "sidebar_search";
 		$laconfig->value = "1";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "show_messages";
 		$laconfig->value = "1";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "show_notifications";
 		$laconfig->value = "1";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "show_tasks";
 		$laconfig->value = "1";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "show_rightsidebar";
 		$laconfig->value = "1";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "skin";
 		$laconfig->value = "skin-white";
 		$laconfig->save();
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "layout";
 		$laconfig->value = "fixed";
 		$laconfig->save();
 
 		// Admin Configurations
 
-		$laconfig = new PAConfigs;
+		$laconfig = new Configs;
 		$laconfig->key = "default_email";
 		$laconfig->value = "test@example.com";
 		$laconfig->save();

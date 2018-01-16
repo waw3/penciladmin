@@ -1,4 +1,4 @@
-@extends("pa.layouts.app")
+@extends("penciladmin.layouts.app")
 
 @section("contentheader_title")
     <a href="{{ url(config('penciladmin.adminRoute') . '/__db_table_name__') }}">__singular_cap_var__</a> :

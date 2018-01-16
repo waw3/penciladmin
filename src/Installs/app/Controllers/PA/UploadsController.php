@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Input;
 use Collective\Html\FormFacade as Form;
 
 use Waw3\PencilAdmin\Models\Module;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Helpers\Helper;
 use Zizaco\Entrust\EntrustFacade as Entrust;
 
 use Auth;
@@ -42,7 +42,7 @@ class UploadsController extends Controller
 		$module = Module::get('Uploads');
 
 		if(Module::hasAccess($module->id)) {
-			return View('pa.uploads.index', [
+			return View('penciladmin.uploads.index', [
 				'show_actions' => $this->show_action,
 				'module' => $module
 			]);
@@ -101,7 +101,7 @@ class UploadsController extends Controller
                     $path = $thumbpath;
                 } else {
                     // Create Thumbnail
-                    PAHelper::createThumbnail($upload->path, $thumbpath, $size, $size, "transparent");
+                    Helper::createThumbnail($upload->path, $thumbpath, $size, $size, "transparent");
                     $path = $thumbpath;
                 }
             }

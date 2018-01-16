@@ -1,4 +1,4 @@
-@extends('pa.layouts.auth')
+@extends('penciladmin.layouts.auth')
 
 @section('htmlheader_title')
     Password recovery
@@ -9,7 +9,7 @@
 <body class="login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url('/home') }}"><b>{{ PAConfigs::getByKey('sitename_part1') }} </b>{{ PAConfigs::getByKey('sitename_part2') }}</a>
+            <a href="{{ url('/home') }}"><b>{{ Configs::getByKey('sitename_part1') }} </b>{{ Configs::getByKey('sitename_part2') }}</a>
         </div><!-- /.login-logo -->
 
         @if (session('status'))
@@ -56,7 +56,7 @@
 
     </div><!-- /.login-box -->
 
-    @include('pa.layouts.partials.scripts_auth')
+    @include(penciladmin.layouts.partials.scripts_auth')
 
     <script>
         $(function () {

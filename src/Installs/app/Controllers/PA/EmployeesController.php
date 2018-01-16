@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Http\Controllers\PA;
+namespace App\Http\Controllers\PencilAdmin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,8 +13,8 @@ use Datatables;
 use Collective\Html\FormFacade as Form;
 use Waw3\PencilAdmin\Models\Module;
 use Waw3\PencilAdmin\Models\ModuleFields;
-use Waw3\PencilAdmin\Models\PAConfigs;
-use Waw3\PencilAdmin\Helpers\PAHelper;
+use Waw3\PencilAdmin\Models\Configs;
+use Waw3\PencilAdmin\Helpers\Helper;
 
 use App\User;
 use App\Models\Employee;
@@ -36,7 +36,7 @@ class EmployeesController extends Controller
 		$module = Module::get('Employees');
 
 		if(Module::hasAccess($module->id)) {
-			return View('pa.employees.index', [
+			return View('penciladmin.employees.index', [
 				'show_actions' => $this->show_action,
 				'listing_cols' => Module::getListingColumns('Employees'),
 				'module' => $module
@@ -75,7 +75,7 @@ class EmployeesController extends Controller
 			}
 
 			// generate password
-			$password = PAHelper::gen_password();
+			$password = Helper::gen_password();
 
 			// Create Employee
 			$employee_id = Module::insert("Employees", $request);
@@ -128,7 +128,7 @@ class EmployeesController extends Controller
 				// Get User Table Information
 				$user = User::where('context_id', '=', $id)->firstOrFail();
 
-				return view('pa.employees.show', [
+				return view('penciladmin.employees.show', [
 					'user' => $user,
 					'module' => $module,
 					'view_col' => $module->view_col,
@@ -165,7 +165,7 @@ class EmployeesController extends Controller
 				// Get User Table Information
 				$user = User::where('context_id', '=', $id)->firstOrFail();
 
-				return view('pa.employees.edit', [
+				return view('penciladmin.employees.edit', [
 					'module' => $module,
 					'view_col' => $module->view_col,
 					'user' => $user,
@@ -312,7 +312,7 @@ class EmployeesController extends Controller
 		if(env('MAIL_USERNAME') != null && env('MAIL_USERNAME') != "null" && env('MAIL_USERNAME') != "") {
 			// Send mail to User his new Password
 			Mail::send('emails.send_login_cred_change', ['user' => $user, 'password' => $request->password], function ($m) use ($user) {
-				$m->from(PAConfigs::getByKey('default_email'), PAConfigs::getByKey('sitename'));
+				$m->from(Configs::getByKey('default_email'), Configs::getByKey('sitename'));
 				$m->to($user->email, $user->name)->subject('PencilAdmin - Login Credentials changed');
 			});
 		} else {

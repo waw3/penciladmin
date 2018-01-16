@@ -14,7 +14,6 @@
             "role": "Developer"
         }
     ],
-    "version": "1.0.40",
     "require": {
         "illuminate/support": "5.*",
         "laravelcollective/html": "^5.2|^5.1",
